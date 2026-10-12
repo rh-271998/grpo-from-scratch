@@ -58,7 +58,7 @@ The model doesn't just output answers — it reasons step by step, and **learned
 
 > `<think>2 * 15 = 30. 2 + 14 = 16. 30 - 16 = 14. 14 is not 1. Let me try another way. 2 + 15 = 17. 17 - 2 = 15. 15 - 14 = 1.</think><answer>(((2+15)-2)-14)</answer>` ✓
 
-It tries an approach, *notices it missed*, and tries another until it lands. See **[the before→after gallery](https://claude.ai/artifact/AdXrPr78UR1JswaqhN3EJG)** for raw-model → SFT → GRPO side by side, verbatim.
+It tries an approach, *notices it missed*, and tries another until it lands. See **[the before→after gallery](https://rh-271998.github.io/grpo-from-scratch/result/gallery.html)** for raw-model → SFT → GRPO side by side, verbatim (source: [`result/gallery.html`](result/gallery.html)).
 
 ## Honest about what this is
 

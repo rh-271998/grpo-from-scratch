@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Learning to Reason</title>
+<style>
+  /* Layout: a vertical research gallery — headline stat, then one case per solvable instance,
+     each showing the same prompt answered by three successive models side by side. */
+  :root{
+    --bg:#f6f7f9; --panel:#ffffff; --ink:#15181d; --muted:#5e6672; --faint:#8b929c;
+    --line:#e4e7ec; --line2:#eef1f4;
+    --raw:#8a9099;        /* raw model — grey, broken */
+    --sft:#b26a10;        /* SFT — ochre, learning */
+    --grpo:#167a5a;       /* GRPO — green, solving */
+    --raw-bg:#f0f1f3; --sft-bg:#fbf3e6; --grpo-bg:#e8f5ef;
+    --mark:#fff2cc; --mark-ink:#5b4a12;
+    --disp:"Fraunces",Georgia,serif;
+    --body:"IBM Plex Sans",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#121519; --panel:#1a1e24; --ink:#e7eaef; --muted:#9aa2ad; --faint:#6b727d;
+    --line:#2a2f37; --line2:#22272e;
+    --raw:#8991a0; --sft:#d79a3f; --grpo:#4cc49a;
+    --raw-bg:#1f242b; --sft-bg:#2a2217; --grpo-bg:#17281f;
+    --mark:#3b3310; --mark-ink:#f0d98a;
+    color-scheme:dark;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#121519; --panel:#1a1e24; --ink:#e7eaef; --muted:#9aa2ad; --faint:#6b727d;
+    --line:#2a2f37; --line2:#22272e;
+    --raw:#8991a0; --sft:#d79a3f; --grpo:#4cc49a;
+    --raw-bg:#1f242b; --sft-bg:#2a2217; --grpo-bg:#17281f;
+    --mark:#3b3310; --mark-ink:#f0d98a;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding-block:clamp(32px,6vw,72px);padding-left:20px;padding-right:20px}
+
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--grpo);margin:0 0 14px}
+  h1{font-family:var(--disp);font-weight:600;font-size:clamp(34px,6.5vw,60px);line-height:1.04;letter-spacing:-.02em;text-wrap:balance;margin:0 0 18px}
+  h1 em{font-style:italic;color:var(--grpo)}
+  .lede{font-size:clamp(16px,2.4vw,19px);color:var(--muted);max-width:60ch;margin:0}
+  .lede b{color:var(--ink);font-weight:600}
+
+  .flow{font-family:var(--mono);font-size:13px;color:var(--faint);margin:26px 0 0;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+  .flow span{white-space:nowrap}
+  .flow .ar{color:var(--line);font-weight:700}
+
+  /* headline stat */
+  .stat{margin-top:40px;border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:clamp(20px,3vw,30px)}
+  .stat h2{font-family:var(--disp);font-weight:600;font-size:20px;margin:0 0 4px}
+  .stat p{margin:0 0 22px;color:var(--muted);font-size:14.5px;max-width:64ch}
+  .bars{display:flex;flex-direction:column;gap:14px}
+  .bar{display:grid;grid-template-columns:132px 1fr;gap:14px;align-items:center}
+  .bar .name{font-size:13.5px;color:var(--muted)}
+  .bar .name b{color:var(--ink);font-weight:600}
+  .track{position:relative;background:var(--line2);border-radius:7px;height:30px;overflow:hidden}
+  .fill{height:100%;border-radius:7px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;color:#fff;font-family:var(--mono);font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+  .fill.a{background:var(--raw)} .fill.b{background:var(--sft)} .fill.c{background:var(--grpo)}
+  .note{margin-top:16px;font-size:13px;color:var(--faint);border-top:1px solid var(--line2);padding-top:14px}
+  .note b{color:var(--sft)}
+
+  /* case */
+  .case{margin-top:52px}
+  .case-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:0}
+  .nums{font-family:var(--mono);font-size:15px;font-weight:600}
+  .nums .op{color:var(--faint)}
+  .tgt{font-family:var(--mono);font-size:13px;color:var(--muted)}
+  .tgt b{color:var(--ink)}
+  .case-tag{margin-left:auto;font-size:12.5px;color:var(--muted)}
+  .case-tag b{font-weight:600}
+
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+  @media(max-width:760px){.cols{grid-template-columns:1fr}}
+  .col{min-width:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel);display:flex;flex-direction:column}
+  .col-top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 14px;border-bottom:1px solid var(--line2)}
+  .stage{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+  .col.raw .col-top{background:var(--raw-bg)} .col.raw .stage{color:var(--raw)}
+  .col.sft .col-top{background:var(--sft-bg)} .col.sft .stage{color:var(--sft)}
+  .col.grpo .col-top{background:var(--grpo-bg)} .col.grpo .stage{color:var(--grpo)}
+  .chip{font-family:var(--mono);font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .chip.no{background:color-mix(in srgb,var(--raw) 16%,transparent);color:var(--raw)}
+  .chip.part{background:color-mix(in srgb,var(--sft) 18%,transparent);color:var(--sft)}
+  .chip.yes{background:color-mix(in srgb,var(--grpo) 18%,transparent);color:var(--grpo)}
+  .gen{font-family:var(--mono);font-size:12.5px;line-height:1.62;padding:14px;white-space:pre-wrap;word-break:break-word;color:var(--ink);flex:1}
+  .gen .t{color:var(--faint)}            /* tags */
+  .gen .chk{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:0 2px}  /* self-check phrase */
+  .gen .ok{color:var(--grpo);font-weight:600}
+  .caption{font-size:12.5px;color:var(--muted);padding:0 14px 14px;border-top:1px solid var(--line2);padding-top:11px}
+
+  footer{margin-top:60px;border-top:1px solid var(--line);padding-top:24px;color:var(--muted);font-size:13.5px}
+  footer h3{font-family:var(--disp);font-size:18px;color:var(--ink);margin:0 0 10px;font-weight:600}
+  footer ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px;max-width:80ch}
+  footer b{color:var(--ink);font-weight:600}
+  .sig{margin-top:26px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>html{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">GRPO from scratch · Qwen2.5-0.5B · the Countdown game</p>
+  <h1>Watching a tiny model learn to <em>check its own work</em></h1>
+  <p class="lede">The same four-number arithmetic puzzle, answered by three successive versions of a 0.5-billion-parameter model. Every generation below is <b>verbatim</b> — nothing edited, only trimmed with “…”. Read left to right to see reasoning appear, then sharpen.</p>
+
+  <p class="flow">
+    <span>raw Qwen2.5-0.5B</span><span class="ar">→</span>
+    <span>SFT cold-start</span><span class="ar">→</span>
+    <span>+ GRPO</span>
+  </p>
+
+  <section class="stat">
+    <h2>What GRPO added</h2>
+    <p>Per-sample solve rate on 100 held-out instances (800 attempts). GRPO lifted reliability ~10 points over a strong supervised baseline — a gain only a large eval could resolve.</p>
+    <div class="bars">
+      <div class="bar"><div class="name">raw model</div><div class="track"><div class="fill a" style="width:4%">~0%</div></div></div>
+      <div class="bar"><div class="name"><b>SFT</b> cold-start</div><div class="track"><div class="fill b" style="width:50.9%">50.9%</div></div></div>
+      <div class="bar"><div class="name"><b>+ GRPO</b></div><div class="track"><div class="fill c" style="width:60.4%">60.4%</div></div></div>
+    </div>
+    <p class="note">The gain is <b>policy sharpening</b>: GRPO became more reliable per attempt (60.4% vs 50.9%) but solved fewer distinct instances at least once (70 vs 82 of 100). Reward optimization concentrates probability on dependable solutions and spends some exploration breadth — entropy reduction, visible in the numbers.</p>
+  </section>
+
+  <!-- CASE 1 -->
+  <article class="case">
+    <div class="case-head">
+      <span class="nums">2 <span class="op">·</span> 15 <span class="op">·</span> 2 <span class="op">·</span> 14</span>
+      <span class="tgt">target <b>1</b></span>
+      <span class="case-tag">the behavior appears: <b>notice → retry → solve</b></span>
+    </div>
+    <div class="cols">
+      <div class="col raw">
+        <div class="col-top"><span class="stage">raw</span><span class="chip no">✗ 0.0</span></div>
+        <div class="gen">To solve this problem, I'll use a combination of logical deduction and trial-and-error… 3. Try 2 * 14 + 15 = 28 + 15 = 43 - This works! 4. Try 2 * 15 + 14 = 30 + 14 = 44 - This also works!  … Both of these expressions equal the target value</div>
+        <div class="caption">Rambles in prose, ignores a number, and declares 43 and 44 both “equal” the target of 1.</div>
+      </div>
+      <div class="col sft">
+        <div class="col-top"><span class="stage">SFT</span><span class="chip part">~ 0.24</span></div>
+        <div class="gen"><span class="t">&lt;think&gt;</span>2 * 15 = 30. 30 - 2 = 28. 28 - 14 = 14. <span class="chk">14 is not 1. Let me try another way.</span> 2 * 15 = 30. 30 - 2 = 28. 28 - 14 = 14. 14 - 1 = 1.<span class="t">&lt;/think&gt;&lt;answer&gt;</span>(((2*15)-2)-14)<span class="t">&lt;/answer&gt;</span></div>
+        <div class="caption">Learns the <em>form</em> of checking — but the retry invents a “1” that isn't in the numbers, and commits a wrong answer (14).</div>
+      </div>
+      <div class="col grpo">
+        <div class="col-top"><span class="stage">+ GRPO</span><span class="chip yes">✓ 1.2</span></div>
+        <div class="gen"><span class="t">&lt;think&gt;</span>2 * 15 = 30. 2 + 14 = 16. 30 - 16 = 14. <span class="chk">14 is not 1. Let me try another way.</span> 2 + 15 = 17. 17 - 2 = 15. 15 - 14 = <span class="ok">1</span>.<span class="t">&lt;/think&gt;&lt;answer&gt;</span>(((2+15)-2)-14)<span class="t">&lt;/answer&gt;</span></div>
+        <div class="caption">Tries, notices the miss, and the second attempt actually lands — a valid expression equal to 1.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- CASE 2 -->
+  <article class="case">
+    <div class="case-head">
+      <span class="nums">9 <span class="op">·</span> 1 <span class="op">·</span> 10 <span class="op">·</span> 8</span>
+      <span class="tgt">target <b>82</b></span>
+      <span class="case-tag">then it sharpens: <b>straight to the answer</b></span>
+    </div>
+    <div class="cols">
+      <div class="col raw">
+        <div class="col-top"><span class="stage">raw</span><span class="chip no">✗ 0.0</span></div>
+        <div class="gen">To find an expression that equals 82… 3. **9 + 10 - 8**: Add 9 and 10: 19. Subtract 8: 11. This matches the target of 82. Therefore, the expression is: <span class="t">&lt;thought&gt;</span>(9 + 10 - 8)<span class="t">&lt;/thought</span></div>
+        <div class="caption">Claims 11 “matches” 82, uses the wrong tag, never closes it.</div>
+      </div>
+      <div class="col sft">
+        <div class="col-top"><span class="stage">SFT</span><span class="chip yes">✓ 1.2</span></div>
+        <div class="gen"><span class="t">&lt;think&gt;</span>1 * 10 = 10. 9 + 10 = 19. 19 - 8 = 11. <span class="chk">11 is not 82. Let me try another way.</span> 9 / 1 = 9. 9 * 10 = 90. 90 - 8 = <span class="ok">82</span>.<span class="t">&lt;/think&gt;&lt;answer&gt;</span>(((9/1)*10)-8)<span class="t">&lt;/answer&gt;</span></div>
+        <div class="caption">Solves it — but spends a failed attempt first, then recovers.</div>
+      </div>
+      <div class="col grpo">
+        <div class="col-top"><span class="stage">+ GRPO</span><span class="chip yes">✓ 1.2</span></div>
+        <div class="gen"><span class="t">&lt;think&gt;</span>9 * 1 = 9. 9 * 10 = 90. 90 - 8 = <span class="ok">82</span>.<span class="t">&lt;/think&gt;&lt;answer&gt;</span>(((9*1)*10)-8)<span class="t">&lt;/answer&gt;</span></div>
+        <div class="caption">Goes straight to the multiplication path — no wasted attempt. This is the reliability gain in one example.</div>
+      </div>
+    </div>
+  </article>
+
+  <!-- CASE 3 -->
+  <article class="case">
+    <div class="case-head">
+      <span class="nums">7 <span class="op">·</span> 7 <span class="op">·</span> 7 <span class="op">·</span> 19</span>
+      <span class="tgt">target <b>26</b></span>
+      <span class="case-tag">the ceiling: <b>a problem it never cracks</b></span>
+    </div>
+    <div class="cols">
+      <div class="col raw">
+        <div class="col-top"><span class="stage">raw</span><span class="chip no">✗ 0.0</span></div>
+        <div class="gen">We need a combination… 1. Multiplication: 7 × 7 = 49 (too high)… 2. Subtraction: 19 - 7 = 12 … 7 × 12 = 84 (still too low)… 7 × 12 =</div>
+        <div class="caption">Explores pairwise, never combines toward 26, and trails off mid-sentence.</div>
+      </div>
+      <div class="col sft">
+        <div class="col-top"><span class="stage">SFT</span><span class="chip no">✗ 0.0</span></div>
+        <div class="gen"><span class="t">&lt;think&gt;</span>7 * 7 = 49. 49 - 7 = 42. 42 - 19 = 23. <span class="chk">23 is not 26. Let me try another way.</span> 7 + 7 = 14. 14 + 7 = 21. 21 + 19 = 40. <span class="chk">40 is not 26. Let me try another way.</span> …  <span class="t">(loops without committing)</span></div>
+        <div class="caption">Checks honestly, but can't find a path and loops the retry until it runs out of room.</div>
+      </div>
+      <div class="col grpo">
+        <div class="col-top"><span class="stage">+ GRPO</span><span class="chip no">✗ 0.0</span></div>
+        <div class="gen"><span class="t">&lt;think&gt;</span>7 * 7 = 49. 49 - 7 = 42. 42 - 19 = 23. <span class="chk">23 is not 26. Let me try another way.</span> 7 + 7 = 14. 14 + 7 = 21. 21 + 19 = 40. 40 + 26 = 26.<span class="t">&lt;/think&gt;&lt;answer&gt;</span>(((7+7)+7)+19)<span class="t">&lt;/answer&gt;</span></div>
+        <div class="caption">More structured, but forces a false step (“40 + 26 = 26”) and commits a wrong answer. A 0.5B model has a real ceiling — this instance needs 7 + 19 + 7 − 7, which it never finds.</div>
+      </div>
+    </div>
+  </article>
+
+  <footer>
+    <h3>What's honestly true</h3>
+    <ul>
+      <li><b>GRPO measurably helped</b> — +~10 points per-sample solve over a strong SFT baseline, on 800 held-out attempts. The gain was invisible on a small eval and only appeared with enough trials.</li>
+      <li><b>This is R1-style cold-start + RL, not reasoning from nothing.</b> The SFT stage seeded the <em>form</em> of step-by-step reasoning (including the try-check-retry demonstrations); GRPO refined it and the solving ability.</li>
+      <li><b>0.5B has a ceiling.</b> The hardest instances are never solved, and degenerate loops still occur. ~60% on four-number Countdown is a credible small-model result, not a frontier one.</li>
+      <li>Every piece — the LoRA adapters, the verifiable reward, the group-relative advantage, the KL penalty — was hand-written in PyTorch. No RL libraries.</li>
+    </ul>
+    <p class="sig">Qwen2.5-0.5B-Instruct · hand-built GRPO · Countdown · fine-tuned on a laptop, RL on a single GPU</p>
+  </footer>
+</div>
+</body>
+</html>
