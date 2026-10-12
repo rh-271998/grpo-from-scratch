@@ -1,0 +1,462 @@
+{
+    "1": {
+        "0": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>4 * 1 = 4. 4 + 4 = 8. 8 + 19 = 27. This equals 27.</think><answer>(((4*1)+4)+19)</answer>",
+            "reward": 1.2000000000000002
+        },
+        "1": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>4 * 1 = 4. 4 * 4 = 16. 16 + 19 = 25. This equals 27. This equals 27. This equals 27.</think><answer>(((4*1)*4)+19)</answer>",
+            "reward": 0.3009482589973277
+        },
+        "2": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>4 * 1 = 4. 4 * 4 = 16. 16 + 19 = 25. This equals 27. This equals 27. This equals 27.</think><answer>(((4*1)*4)+19)</answer>",
+            "reward": 0.3009482589973277
+        },
+        "3": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>4 * 1 = 4. 4 * 4 = 16. 16 + 19 = 25. This equals 27.</think><answer>(((4*1)*4)+19)</answer>",
+            "reward": 0.3009482589973277
+        },
+        "4": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>4 * 1 = 4. 4 + 4 = 8. 8 + 19 = 27. This equals 27.</think><answer>(((4*1)+4)+19)</answer>",
+            "reward": 1.2000000000000002
+        },
+        "5": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>4 * 1 = 4. 4 + 4 = 8. 8 + 19 = 27. This equals 27.</think><answer>(((4*1)+4)+19)</answer>",
+            "reward": 1.2000000000000002
+        },
+        "6": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>4 * 1 = 4. 4 + 4 = 8. 8 + 19 = 27. This equals 27.</think><answer>(((4*1)+4)+19)</answer>",
+            "reward": 1.2000000000000002
+        },
+        "7": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>4 * 1 = 4. 4 * 4 = 16. 16 + 19 = 25. This equals 27. This equals 27.</think><answer>(((4*1)*4)+19)</answer>",
+            "reward": 0.3009482589973277
+        },
+        "rewardMean": 0.7504741294986639,
+        "solveRate": 0.5
+    },
+    "2": {
+        "0": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>7 * 7 = 49. 7 + 19 = 26. 49 - 26 = 23. 23 is not equal to 26. This expression equals 26. 7 + 19 = 26. 7 * 7 = 49. 49 - 26 = 23. 23 is not equal to 26. This expression equals 26. 7 + 19 = 26. 7 * 7 = 49. 49 - 26 = 23. 23 is not equal to 26. This expression equals 26. 7 + 19 = 26. 7 * 7 = 49. 49 - 26 = 23. 23 is not equal to 26. This expression equals 26. 7 + 19 = 26. 7 * 7 = 49. 49 - 26 = 23. 23 is not equal to 26. This expression equals 26",
+            "reward": 0.0
+        },
+        "1": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>7 * 7 = 49. 49 - 19 = 26. This equals 26.</think><answer>(((7*7)-19)</answer>",
+            "reward": 0.2
+        },
+        "2": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>7 + 7 = 14. 14 + 19 = 33. 33 - 19 = 26. This equals 26.</think><answer>(((7+7)+19)-19)</answer>",
+            "reward": 0.2
+        },
+        "3": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>7 * 7 = 49. 7 + 19 = 26. 49 - 26 = 23. 23 is not 26, so this expression does not equal 26. This expression equals 26. 7 + 7 = 14. 14 + 19 = 23. 23 is not 26, so this expression does not equal 26. This expression equals 26. 7 + 7 = 14. 14 + 19 = 23. 23 is not 26, so this expression does not equal 26. This expression equals 26.</answer>",
+            "reward": 0.0
+        },
+        "4": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>7 + 7 = 14. 14 + 19 = 33. 33 - 19 = 26. This equals 26.</think><answer>(((7+7)+19)-19)</answer>",
+            "reward": 0.2
+        },
+        "5": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>7 * 7 = 49. 7 + 19 = 26. 49 - 26 = 23. 23 is not 26. This expression equals 26.</think><answer>((7*7)-(7+19))</answer>",
+            "reward": 0.4744058180470132
+        },
+        "6": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>7 / 7 = 1. 1 * 19 = 19. 1 + 19 = 20. 20 + 19 = 29. This equals 29, not 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals 26. This equals",
+            "reward": 0.0
+        },
+        "7": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>7 * 7 = 49. 49 - 19 = 26. This equals 26.</think><answer>(((7*7)-19)</answer>",
+            "reward": 0.2
+        },
+        "rewardMean": 0.15930072725587666,
+        "solveRate": 0.0
+    },
+    "3": {
+        "0": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination.</think><answer>(((10+14)+1)+9)</answer>",
+            "reward": 0.6093653765389909
+        },
+        "1": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination. 10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination. 10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination. 10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination. 10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is",
+            "reward": 0.0
+        },
+        "2": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination. 10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination. 10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination. 10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination. 10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is",
+            "reward": 0.0
+        },
+        "3": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination.</think><answer>(((10+14)+1)+9)</answer>",
+            "reward": 0.6093653765389909
+        },
+        "4": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination.</think><answer>(((10+14)+1)+9)</answer>",
+            "reward": 0.6093653765389909
+        },
+        "5": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination.</think><answer>(((10+14)+1)+9)</answer>",
+            "reward": 0.6093653765389909
+        },
+        "6": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. This equals 33. This equals 33.</think><answer>(((10+14)+1)+9)</answer>",
+            "reward": 0.6093653765389909
+        },
+        "7": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>10 + 14 = 24. 24 + 1 = 25. 25 + 9 = 34. This equals 34, which is not 33. Let's try another combination.</think><answer>(((10+14)+1)+9)</answer>",
+            "reward": 0.6093653765389909
+        },
+        "rewardMean": 0.45702403240424316,
+        "solveRate": 0.0
+    },
+    "4": {
+        "0": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>9 * 1 = 9. 9 + 10 = 19. 19 + 8 = 27. 27 = 82. This equals 82.</think><answer>(((9*1)+10)+8)</answer>",
+            "reward": 0.20000835085039514
+        },
+        "1": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>9 * 1 = 9. 9 + 10 = 19. 19 + 8 = 27. 27 = 82. This equals 82.</think><answer>(((9*1)+10)+8)</answer>",
+            "reward": 0.20000835085039514
+        },
+        "2": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>9 * 1 = 9. 9 + 10 = 19. 19 + 8 = 27. This equals 82.</think><answer>(((9*1)+10)+8)</answer>",
+            "reward": 0.20000835085039514
+        },
+        "3": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>9 * 1 = 9. 9 + 10 = 19. 19 + 8 = 27. 27 = 82. This equals 82.</think><answer>(((9*1)+10)+8)</answer>",
+            "reward": 0.20000835085039514
+        },
+        "4": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>9 * 1 = 9. 9 + 10 = 19. 19 + 8 = 27. 27 = 82. This equals 82.</think><answer>(((9*1)+10)+8)</answer>",
+            "reward": 0.20000835085039514
+        },
+        "5": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>9 * 1 = 9. 9 + 10 = 19. 19 + 8 = 27. This equals 82.</think><answer>(((9*1)+10)+8)</answer>",
+            "reward": 0.20000835085039514
+        },
+        "6": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>9 * 1 = 9. 9 + 10 = 19. 19 + 8 = 27. This equals 82.</think><answer>(((9*1)+10)+8)</answer>",
+            "reward": 0.20000835085039514
+        },
+        "7": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>9 * 1 = 9. 9 + 10 = 19. 19 + 8 = 27. This equals 82.</think><answer>(((9*1)+10)+8)</answer>",
+            "reward": 0.20000835085039514
+        },
+        "rewardMean": 0.20000835085039514,
+        "solveRate": 0.0
+    },
+    "5": {
+        "0": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>2 + 15 = 17. 2 + 14 = 16. 17 - 16 = 1. This equals 1.</think><answer>((2+15)-(2+14))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "1": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>2 * 15 = 30. 2 + 14 = 16. 30 - 16 = 1. This equals 1.</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.23713678910716696
+        },
+        "2": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>2 + 15 = 17. 17 - 2 = 15. 15 - 14 = 1. This equals 1.</think><answer>(((2+15)-2)-14)</answer>",
+            "reward": 1.2000000000000002
+        },
+        "3": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>2 * 15 = 30. 2 + 14 = 16. 30 - 16 = 1. This equals 1.</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.23713678910716696
+        },
+        "4": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>2 * 15 = 30. 2 + 14 = 16. 30 - 16 = 1. This equals 1.</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.23713678910716696
+        },
+        "5": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>2 * 15 = 30. 2 + 14 = 16. 30 - 16 = 1. This equals 1.</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.23713678910716696
+        },
+        "6": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>2 * 15 = 30. 2 + 14 = 16. 30 - 16 = 1. This equals 1.</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.23713678910716696
+        },
+        "7": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>2 * 15 = 30. 2 + 14 = 16. 30 - 16 = 1. This equals 1.</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.23713678910716696
+        },
+        "rewardMean": 0.47785259183037526,
+        "solveRate": 0.25
+    }
+}

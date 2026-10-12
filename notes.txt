@@ -1,0 +1,140 @@
+What Countdown is, and why it's the perfect GRPO testbed
+Before any tooling, let's nail the task, because everything downstream (the prompt, the reward, why GRPO even works) falls out of it.
+
+The game. You're given a small set of numbers and a target. You must combine all (or some, depending on the variant — we'll use "use each at most once") of the numbers with + − × ÷ and parentheses to reach the target.
+
+Numbers: [3, 7, 11, 2]  Target: 29
+A valid answer: 3 × 7 + 11 − 2 = 29 ✓
+
+Why this task is special for RL — the one property that matters: the answer is cheap and unambiguous to check, but hard to produce. Given a candidate like 3*7+11-2, you (the trainer) just evaluate the arithmetic and compare to 29 — a few lines of Python, no judgment, no learned model. That check is the verifiable reward.
+
+Contrast this with your PPO project: "is this movie review positive?" has no ground-truth formula — that's exactly why you had to train a reward model to approximate human taste. Countdown needs no such thing. The reward model disappears because arithmetic is its own ground truth. That single difference is what defines the RLVR ("RL with Verifiable Rewards") frontier — and it's why reasoning-model training (math, code, logic) uses this recipe: in all those domains, checking is easier than generating.
+
+Where the "reasoning" comes from. Notice there's no single obvious path to 29 — the model has to try combinations. When you reward only the final correct answer and let the model generate freely, it discovers on its own that "thinking out loud" — trying a combo, noticing it overshoots, backtracking — gets it to correct answers more often. Nobody teaches it to reason; the reward pressures it into reasoning. That emergent behavior is the "aha moment" you're reproducing.
+
+
+The RL framing (map it to what you know):
+
+State = the prompt so far (the numbers, target, and whatever tokens it's generated).
+Action = the next token.
+Episode = one full generated attempt (its reasoning + final expression).
+Reward = computed once, at the end, by the verifier (did it hit the target + was it formatted correctly). A sparse, end-of-episode reward — just like your RM score sat at the last token.
+
+
+You're proposing to shape the reward into tiers instead of a flat pass/fail. Conceptually:
+
+Model output	Reward
+Can't even parse it (no valid expression)	0 (or slightly negative)
+Valid, parseable expression — but wrong number	small, e.g. +0.1
+Valid and hits the target	large, e.g. +1.0
+Your reasoning ("reward good structure too") is one justification. But here's the one that makes it almost necessary, and it comes straight from RL fundamentals:
+
+The real reason: the sparse-reward problem
+Think about the model on step 1 of training. Qwen-0.5B has never seen Countdown. What are the odds a fresh model's random-ish attempt exactly hits 29? Tiny. So with a flat 1/0 reward, almost every episode scores 0.
+
+Now recall what a zero-everywhere reward means for learning: no signal. If every attempt gets the same reward, there's nothing to push the model toward — no attempt looks better than another. Training stalls before it starts. This is the classic sparse-reward wall, and it's the thing that kills reasoning-RL runs early.
+
+Your format reward is the ladder over that wall. Getting the output structure right ("produce a clean parseable expression") is something the model can achieve often, even early. So the format reward gives a dense, learnable early signal that pulls the model toward well-formed outputs — and once it reliably produces valid expressions, it starts occasionally landing correct ones, and then the big accuracy reward kicks in and takes over. Format reward bootstraps; accuracy reward finishes. You intuited the "nice to reward structure" part; the mechanism is "without it, the correctness signal may never fire at all."
+
+There's a GRPO-specific twist too (preview of P4): GRPO measures each attempt relative to the other attempts on the same prompt. If all of them score 0, they're all equally bad → advantage is zero → that prompt teaches nothing. A shaped reward creates variance within the group — some attempts parse, some don't — and variance is exactly what GRPO turns into a learning signal. So dense shaping matters even more for GRPO than for PPO.
+
+Here's the catch, and it should feel familiar: reward hacking. If the format reward is too generous relative to correctness, the model finds the lazy optimum — always emit a tidy, well-formatted, confidently wrong expression and farm the format points forever, never doing the hard work of actually hitting the target.
+
+The defense is a hard ordering: correctness reward must dominate format reward (that's why 1.0 vs 0.1, not 0.6 vs 0.5). The model must never be able to prefer "well-formatted wrong" over "correct." Get the ratio wrong and you'll literally watch it plateau at beautiful nonsense.
+
+
+LoRA: how you train a 0.5B model on an 8 GB laptop
+In the PPO project, GPT-2 (124M) was small enough to fully fine-tune — every weight got a gradient. Qwen-0.5B is 4× bigger, and more importantly the optimizer is the real memory hog. Let me show you why full fine-tuning is impossible here, then how LoRA sidesteps it.
+
+The problem: optimizer state, not the model, breaks your RAM
+When you train with Adam (what you used), each trainable parameter carries four things in memory:
+
+the weight itself,
+its gradient,
+Adam's momentum estimate (m),
+Adam's variance estimate (v).
+In fp32 that's ~4 bytes each → ~16 bytes per parameter just to train it. For 0.5B params:
+
+0.5 × 10⁹ params × 16 bytes ≈ 8 GB — for the optimizer alone, before activations, before you've even run a forward pass.
+
+That's your entire machine gone. Full fine-tuning of a 0.5B model simply does not fit in 8 GB. This is the wall LoRA was invented to climb.
+
+The insight: fine-tuning changes are low-rank
+Here's the idea that makes LoRA work, and it's a genuinely deep observation about fine-tuning. When you adapt a big pretrained model to a narrow task (like "output Countdown in this format"), the change to any given weight matrix — call it ΔW — turns out to be low-rank. Meaning: even though W is a huge d × k matrix, the adjustment it needs for your task lives in a tiny subspace. You don't need to move all d × k numbers independently; a few "directions" capture essentially all the useful change.
+
+Intuition: the pretrained model already knows arithmetic and language. Your task doesn't require rebuilding those capabilities — just a small, structured nudge. Small nudge ⇒ low rank.
+
+The mechanism
+Instead of updating W directly, LoRA freezes W entirely and learns the update as a product of two skinny matrices:
+
+
+ΔW = B · A        where  A is [r × k],  B is [d × r],  and r is tiny (e.g. 8 or 16)
+The forward pass becomes:
+
+
+h = W·x  +  (α/r)·(B·A)·x
+ └frozen┘ └─ trainable adapter ─┘
+r is the rank — the width of the bottleneck. With d = k = 1024 and r = 8:
+
+Full ΔW: 1024 × 1024 ≈ 1,000,000 trainable params per matrix.
+LoRA B·A: (1024×8) + (8×1024) ≈ 16,000 — about 1.5%.
+You only ever compute gradients and Adam states for A and B. W sits frozen — no gradient, no m, no v. So the crushing 16-bytes-per-param cost applies only to the tiny adapter, not the 0.5B base.
+
+The memory math, redone with LoRA
+Frozen base in fp16: ~1 GB, just sitting there (no optimizer state). (With QLoRA — quantizing the frozen base to 4-bit — this drops to ~0.3 GB; a knob we may reach for.)
+Adapters (say ~2–4M params): optimizer state ≈ tens of MB. Negligible.
+Activations + a short sequence length: the remaining budget.
+Suddenly it fits — comfortably. That's the whole trick: freeze the giant thing, train a tiny thing bolted onto it.
+
+
+GRPO
+
+You already know PPO cold, so I'm going to teach GRPO as a diff against PPO. That's genuinely the best way to see it, because GRPO is mostly PPO with one expensive organ removed and replaced by something cleverer.
+
+The one-line version
+GRPO = PPO with the entire critic (value head + GAE) deleted, and the baseline it provided replaced by: "ask the same question several times and use the group's average reward as the baseline."
+
+That's it. Everything below is unpacking that sentence.
+
+Why you'd even want to delete the critic
+Cast your mind back to why the value head existed in PPO. Its only job was to provide a baseline — an estimate of "how much reward should I expect from this state?" — so the advantage A = reward − baseline could tell you whether an action came out better or worse than expected. Without a baseline, you'd be doing raw REINFORCE (push up whatever got any reward), which is high-variance and unstable.
+
+But that critic cost you a lot: a whole second network, the GAE recursion (γ, λ, the TD residuals), a value loss, and that subtle bootstrapping-detach dance you had to think hard about. And critics are finicky — a badly-trained value head produces garbage advantages and quietly wrecks the run.
+
+Now here's the GRPO insight. For a verifiable task, sampling is cheap — you can ask the model the same question G times and get G real rewards in seconds. And the average of those G rewards is already an excellent estimate of "expected reward from this prompt" — which is exactly what the critic was straining to predict. So why train a neural network to guess the baseline when you can just measure it empirically by sampling? Delete the critic; let the group tell you the baseline.
+
+One GRPO iteration, mapped onto the loop you know
+Your PPO loop was rollout → reward → advantage → clipped update. GRPO keeps that skeleton and changes two boxes:
+
+1. Rollout — but in GROUPS.
+For each prompt, sample G completions (say G = 8) from the current policy, not one. Record token ids and old log-probs per completion, exactly as before. So a batch is now groups of siblings answering the same question.
+
+2. Reward — the verifiable function (Concept 1).
+Each of the G completions gets one scalar from your verifier (format + correctness). No reward model.
+
+3. Advantage — group-relative, no critic. This is the whole trick. Within one group of G rewards:
+
+
+Â_i = (r_i − mean(r_1..r_G)) / std(r_1..r_G)
+The mean is the baseline (the critic's old job — now just an average).
+Dividing by std is the whitening (PPO did this globally; GRPO does it per-group).
+Every token in completion i gets this same scalar Â_i.
+Read it intuitively: a completion that beat its siblings gets Â > 0 → "make these tokens more likely"; one worse than its siblings gets Â < 0 → "less likely." The group is the yardstick.
+
+4. Update — clipped, identical to PPO.
+
+
+ratio_t   = exp(newLogp_t − oldLogp_t)
+policy_loss = − mean( min( ratio_t · Â,  clip(ratio_t, 1−ε, 1+ε) · Â ) )   # masked over response tokens
+Same clipped objective, same K-epochs-on-frozen-rollout structure, same old-log-prob ratio. Plus a KL-to-reference term (below).
+
+The full diff table
+PPO component	In GRPO
+Value head / critic network	deleted — group mean is the baseline
+GAE (γ, λ, per-token advantages)	deleted — one advantage per completion
+Value loss (0.5·(V−returns)²)	deleted
+Global advantage whitening	per-group (r−mean)/std
+Reward model	deleted — verifiable function (this is from the task, not GRPO itself)
+KL folded into the reward vector	usually a direct KL term in the loss instead
+Clipped ratio objective	same
+K epochs / old-log-prob ratio	same

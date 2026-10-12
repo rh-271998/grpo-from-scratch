@@ -1,0 +1,462 @@
+{
+    "1": {
+        "0": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((4*1)+(4+19))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "1": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((4*1)+(4*19))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "2": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((4*1)+(4+19))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "3": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((4*1)+(4+19))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "4": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((4*1)+(4+19))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "5": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((4*1)+(4*19))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "6": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((4*1)+(4+19))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "7": {
+            "numbers": [
+                4,
+                1,
+                4,
+                19
+            ],
+            "target": 27,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((4*1)+(4*19))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "rewardMean": 0.8625000000000002,
+        "solveRate": 0.625
+    },
+    "2": {
+        "0": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((7+7)+(7*19))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "1": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((7*7)-(7+19))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "2": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((7+7)+(7/19))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "3": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((7*7)-(19+7))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "4": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((7*7)-(19+7))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "5": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((7+7)+(7*19))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "6": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((7+7)+(7*19))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "7": {
+            "numbers": [
+                7,
+                7,
+                7,
+                19
+            ],
+            "target": 26,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((7*7)-(7+19))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "rewardMean": 0.30000000000000004,
+        "solveRate": 0.0
+    },
+    "3": {
+        "0": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((10+14)+(1*9))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "1": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((10+14)+(1*9))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "2": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((10+14)+(1*9))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "3": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((10+14)+(1*9))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "4": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((10+14)+(1*9))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "5": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((10+14)+(1*9))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "6": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((10+14)+(1*9))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "7": {
+            "numbers": [
+                10,
+                14,
+                1,
+                9
+            ],
+            "target": 33,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((10+14)+(1*9))</answer>",
+            "reward": 1.2000000000000002
+        },
+        "rewardMean": 1.2000000000000002,
+        "solveRate": 1.0
+    },
+    "4": {
+        "0": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((9*1)+(10+8))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "1": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((9*1)+(10*8))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "2": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((9*1)+(10+8))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "3": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((9*1)+(10*8))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "4": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((9*1)+(10*8))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "5": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((9*1)+(10*8))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "6": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((9*1)+(10*8))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "7": {
+            "numbers": [
+                9,
+                1,
+                10,
+                8
+            ],
+            "target": 82,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((9*1)+(10*8))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "rewardMean": 0.30000000000000004,
+        "solveRate": 0.0
+    },
+    "5": {
+        "0": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "1": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "2": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "3": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "4": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "5": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "6": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "7": {
+            "numbers": [
+                2,
+                15,
+                2,
+                14
+            ],
+            "target": 1,
+            "response": "<think>Let me combine the numbers to reach the target</think><answer>((2*15)-(2+14))</answer>",
+            "reward": 0.30000000000000004
+        },
+        "rewardMean": 0.30000000000000004,
+        "solveRate": 0.0
+    }
+}

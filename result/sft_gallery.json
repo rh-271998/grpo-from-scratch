@@ -1,0 +1,57 @@
+{
+    "1": {
+        "numbers": [
+            4,
+            1,
+            4,
+            19
+        ],
+        "target": 27,
+        "response": "<think>Let me combine the numbers to reach the target</think><answer>((4+1)+(4*19))</answer>",
+        "reward": 0.30000000000000004
+    },
+    "2": {
+        "numbers": [
+            7,
+            7,
+            7,
+            19
+        ],
+        "target": 26,
+        "response": "<think>Let me combine the numbers to reach the target</think><answer>((7*7)-(7/19))</answer>",
+        "reward": 0.30000000000000004
+    },
+    "3": {
+        "numbers": [
+            10,
+            14,
+            1,
+            9
+        ],
+        "target": 33,
+        "response": "<think>Let me combine the numbers to reach the target</think><answer>((10+14)+(1*9))</answer>",
+        "reward": 1.2000000000000002
+    },
+    "4": {
+        "numbers": [
+            9,
+            1,
+            10,
+            8
+        ],
+        "target": 82,
+        "response": "<think>Let me combine the numbers to reach the target</think><answer>((9+1)+(10*8))</answer>",
+        "reward": 0.30000000000000004
+    },
+    "5": {
+        "numbers": [
+            2,
+            15,
+            2,
+            14
+        ],
+        "target": 1,
+        "response": "<think>Let me combine the numbers to reach the target</think><answer>((2+15)-(2*14))</answer>",
+        "reward": 0.30000000000000004
+    }
+}
